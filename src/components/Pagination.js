@@ -1,7 +1,9 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom';
 
 function Pagination(props) {
     const {page,totalPages,getListData} = props
+    const navigate = useNavigate()
   return (
     <div className="row">
 <div className="col">
@@ -17,7 +19,9 @@ function Pagination(props) {
             return <li className={myClass} key={p} >
                 <a className="page-link" href="#/" onClick={(e)=>{
                     e.preventDefault()
-                    getListData(p)
+                    navigate(`?page=${p}`)
+            
+                    // getListData(p)
                 }}>
                   { p }
                 </a>

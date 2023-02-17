@@ -2,9 +2,14 @@ import React, { useEffect,useState } from 'react'
 import {LIST_DATA} from "./../components/api_config"
 import ListTable from '../components/ListTable'
 import Pagination from '../components/Pagination'
+import { useLocation } from 'react-router-dom'
 
 function AbList() {
-
+const location = useLocation()
+console.log(location)
+console.log(location.search)
+const usp = new URLSearchParams(location.search)
+console.log(usp)
 const [data,setData] = useState({
   page: 0,
   rows: [],
@@ -21,10 +26,10 @@ const [data,setData] = useState({
     } 
 
 useEffect(()=>{
-        getListData()
+        getListData(+usp.get('page'))
 
         return ()=>{console.log("移除AbList")}    
-},[])
+},[location.search])
   return (
 
     <div className="container">
