@@ -1,12 +1,14 @@
 import React from 'react'
 import dayjs from 'dayjs'
+import { FaTrashAlt } from "react-icons/fa"
 
 function ListTable(props) {
-    const{data} =props
+    const{data,removeItem} =props
   return (
     <table className="table table-striped table-bordered">
     <thead>
               <tr>
+              <th scope="col"><FaTrashAlt/></th>
                 <th scope="col">#</th>
                 <th scope="col">姓名</th>
                 <th scope="col">手機</th>
@@ -18,6 +20,11 @@ function ListTable(props) {
             <tbody>
               {data.rows.map((v,i)=>{
                 return <tr key={v.sid}>
+                <td>
+                <a href="#/" onClick={(e)=>{
+                  e.preventDefault();
+                  removeItem(v.sid)
+                }}><FaTrashAlt /></a></td>
               <td>{v.sid}</td>
               <td>{v.name}</td>
               <td>{v.mobile}</td>

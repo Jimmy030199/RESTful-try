@@ -31,6 +31,11 @@ function Navbar(){
                     ablist
                     </Link>
                   </li>
+                  <li className="nav-item">
+                    <Link className="nav-link" to="/login">
+                    登入
+                    </Link>
+                  </li>
                 </ul>
               </div>
             </div>

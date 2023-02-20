@@ -1,8 +1,9 @@
 import React, { useEffect,useState } from 'react'
-import {LIST_DATA} from "./../components/api_config"
+import {LIST_DATA,ADDRESS_BOOK} from "./../components/api_config"
 import ListTable from '../components/ListTable'
 import Pagination from '../components/Pagination'
 import { useLocation } from 'react-router-dom'
+import axios from 'axios'
 
 function AbList() {
 const location = useLocation()
@@ -19,11 +20,32 @@ const [data,setData] = useState({
 })
 
     const getListData = async (page=1) =>{
-        const r = await fetch(LIST_DATA+`?page=${page}`)
-        const json = await r.json()
-        console.log(json)
-        setData(json)
+
+    const response = await axios.get(LIST_DATA,{params:{page}});
+ 
+    // response.data 會依據後端回應的檔頭作解析, JSON
+    console.log(response.data);
+    setData(response.data);
+
+
+
+
+
+        // const r = await fetch(LIST_DATA+`?page=${page}`)
+        // const json = await r.json()
+        // console.log(json)
+        // setData(json)
     } 
+
+    const removeItem = async (itemId=0)=>{
+     if(!(+itemId)){
+      return;
+     }
+     const response = await axios.delete(ADDRESS_BOOK+'/'+itemId)
+     console.log(response.data)
+     getListData(data.page || 1)
+
+    }
 
 useEffect(()=>{
         getListData(+usp.get('page'))
@@ -34,7 +56,7 @@ useEffect(()=>{
 
     <div className="container">
     <Pagination page={data.page} totalPages={data.totalPages} getListData={getListData}/>
-    <ListTable data={data}/>
+    <ListTable data={data} removeItem={removeItem}/>
     </div>
   )
 }
