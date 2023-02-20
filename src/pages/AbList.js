@@ -41,7 +41,26 @@ const [data,setData] = useState({
      if(!(+itemId)){
       return;
      }
-     const response = await axios.delete(ADDRESS_BOOK+'/'+itemId)
+
+     let myAuth = {
+      account: '',
+      accountId: 0,
+      token: '',
+    };
+
+
+    let mAuth = localStorage.getItem('myAuth')
+    try {
+      if(mAuth){
+        myAuth = JSON.parse(mAuth);
+      }
+    } catch (error) {}
+    
+
+
+     const response = await axios.delete(ADDRESS_BOOK+'/'+itemId , {
+      headers:{Authorization:"Bearer " + myAuth.token}
+     })
      console.log(response.data)
      getListData(data.page || 1)
 

@@ -13,8 +13,15 @@ function Login() {
         <div className="col-4">
           <form onSubmit={e=>{
               e.preventDefault();
-              axios.post(LOGIN, {...myForm}).then(response=>{
+              axios.post(LOGIN, myForm).then(response=>{
                 console.log(response.data)
+                if(response.data.success){
+                const {account, accountId, token} = response.data
+                localStorage.setItem("myAuth",JSON.stringify({
+                    account,
+                     accountId,
+                      token}))
+                }
               })
             }}>
             <div className="mb-3">

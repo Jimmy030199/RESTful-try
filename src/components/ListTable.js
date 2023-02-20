@@ -1,11 +1,13 @@
-import React from 'react'
+import {useContext} from 'react'
 import dayjs from 'dayjs'
 import { FaTrashAlt } from "react-icons/fa"
+import ThemeContext from '../context/ThemeContext'
 
 function ListTable(props) {
     const{data,removeItem} =props
+     const {color, backgroundColor} =  useContext(ThemeContext)
   return (
-    <table className="table table-striped table-bordered">
+    <table className="table table-striped table-bordered" style={{color, backgroundColor}}>
     <thead>
               <tr>
               <th scope="col"><FaTrashAlt/></th>

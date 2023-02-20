@@ -1,6 +1,9 @@
 import {Link} from "react-router-dom"
+import {useContext} from "react"
+import ThemeContext ,{ themes } from "../context/ThemeContext";
 
 function Navbar(){
+  const {name: themeName, color, backgroundColor, setTheme} = useContext(ThemeContext)
     return (
         <div className="container">
           <nav className="navbar navbar-expand-lg bg-body-tertiary">
@@ -37,6 +40,11 @@ function Navbar(){
                     </Link>
                   </li>
                 </ul>
+                <button type="button" class="btn btn-primary"  style={{color, backgroundColor}} onClick={()=>{
+                  if(themeName==='dark'){ setTheme(themes.light)}else{
+                    setTheme(themes.dark)
+                  }
+                }} >Primary</button>
               </div>
             </div>
           </nav>
