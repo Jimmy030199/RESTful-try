@@ -1,8 +1,12 @@
 import { useState } from "react";
+import {useContext} from "react"
 import axios from 'axios';
 import { LOGIN } from "./../components/api_config.js";
+import AuthContext from "../context/AurhContext";
+
 
 function Login() {
+  const { setMyAuth } = useContext(AuthContext)
   const [myForm, setMyForm] = useState({
     account: '', password: ''
   });
@@ -21,8 +25,17 @@ function Login() {
                     account,
                      accountId,
                       token}))
+                setMyAuth({
+               authorized: true,
+                sid: accountId,
+                account,
+                token
+               })
+                } else{
+                  alert(response.data.error || '帳號或密碼錯誤')
                 }
               })
+              
             }}>
             <div className="mb-3">
               <label htmlFor="account" className="form-label">

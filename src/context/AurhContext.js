@@ -1,12 +1,14 @@
 import {createContext,useState} from "react"
-
+import{useNavigate} from "react-router-dom"
 const AuthContext = createContext({});
 export default AuthContext;
 
 export const AuthContextProvider =  ({children})=>{
+const navigate = useNavigate()
+
   // 預設為未登入狀態
   const unAuth = {
-    authorised: false,
+    authorized: false,
     sid: 0,
     account: '',
     token: ''
@@ -20,9 +22,10 @@ export const AuthContextProvider =  ({children})=>{
 
     if(str){
     const localAuth = JSON.parse(str);
+
     if(localAuth.token && localAuth.account && localAuth.accountId){
         initAuth ={
-            authorised: true,
+            authorized: true,
             sid: localAuth.accountId,
             account: localAuth.account,
             token: localAuth.token
@@ -35,8 +38,18 @@ export const AuthContextProvider =  ({children})=>{
   const [myAuth, setMyAuth] = useState(initAuth);
 
 
+
+const logout = ()=>{
+  localStorage.removeItem("myAuth")
+  setMyAuth(unAuth)
+  navigate('/')
+
+}
+
+
+
   return(
-    <AuthContext.Provider value={{}}>
+    <AuthContext.Provider value={{myAuth,setMyAuth,logout}}>
     {children}
     </AuthContext.Provider>
   )

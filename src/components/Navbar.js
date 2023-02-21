@@ -1,9 +1,11 @@
 import {Link} from "react-router-dom"
 import {useContext} from "react"
 import ThemeContext ,{ themes } from "../context/ThemeContext";
+import AuthContext from "../context/AurhContext";
 
 function Navbar(){
   const {name: themeName, color, backgroundColor, setTheme} = useContext(ThemeContext)
+  const {myAuth,logout} = useContext(AuthContext)
     return (
         <div className="container">
           <nav className="navbar navbar-expand-lg bg-body-tertiary">
@@ -35,16 +37,40 @@ function Navbar(){
                     </Link>
                   </li>
                   <li className="nav-item">
-                    <Link className="nav-link" to="/login">
-                    登入
+                    <Link className="nav-link" to="/my-canvas">
+                    my-canvas
                     </Link>
                   </li>
+              
                 </ul>
-                <button type="button" class="btn btn-primary"  style={{color, backgroundColor}} onClick={()=>{
+                <button type="button" className="btn btn-primary"  style={{color, backgroundColor}} onClick={()=>{
                   if(themeName==='dark'){ setTheme(themes.light)}else{
                     setTheme(themes.dark)
                   }
                 }} >Primary</button>
+
+                <ul className="navbar-nav mb-2 mb-lg-0">
+                 { myAuth.authorized ? (<>
+                 <li className="nav-item">
+                  <a className="nav-link" href="#/" onClick={e=>e.preventDefault()}> {myAuth.account}</a>
+                  </li>
+                  <li className="nav-item">
+                    <a className="nav-link" href="#/" onClick={(e)=>{
+                      e.preventDefault()
+                      logout()
+                    }}>登出</a>
+                  </li>
+                  </>) :  (<> <li className="nav-item">
+                    <Link className="nav-link" to="/login">
+                    登入
+                    </Link>
+                  </li></>) }
+                
+                 
+              
+                 
+
+                </ul>
               </div>
             </div>
           </nav>
